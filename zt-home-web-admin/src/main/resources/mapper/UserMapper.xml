@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangtao.zt.home.web.admin.dao.TbUserDao">
+
+    <!--public List<TbUser> selectUserByUsername(String username);-->
+    <select id="selectUserByUsername" parameterType="String" resultType="com.zhangtao.zt.home.domain.TbUser">
+        select *
+        from tb_user
+        <where>
+            <if test="username!=null and username!=''">
+                username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <!--public TbUser selectById(@Param(value = "id") Integer id);-->
+    <select id="selectById" resultType="com.zhangtao.zt.home.domain.TbUser">
+        select *
+        from tb_user
+        where
+        id = #{id}
+    </select>
+
+
+    <!--public void save(TbUser tbUser);-->
+    <insert id="save" parameterType="com.zhangtao.zt.home.domain.TbUser">
+        INSERT INTO
+        tb_user(username, password, email, phone)
+        values(#{username}, #{password}, #{email},#{phone})
+    </insert>
+
+    <!--public void deleteTbUserById(String[] isArray);-->
+    <delete id="deleteTbUserById" >
+        delete from tb_user
+        where id in
+        <!--
+        动态Sql拼接条件
+        Collection：表示集合形式，若是数组则为array，若是集合，就用list
+         -->
+        <foreach collection="array" item="id" index="index"
+                 open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--public List<TbUser> selectSure(TbUser tbUser);-->
+    <select id="selectSure" resultType="com.zhangtao.zt.home.domain.TbUser">
+        select *
+        from tb_user
+        where
+        username=#{username}
+        and email=#{email}
+    </select>
+
+    <!--public void updateTbUser(TbUser tbUser);-->
+    <update id="updateTbUser">
+        update tb_user
+        set
+        username = #{username},
+        phone = #{phone},
+        email = #{email},
+        password = #{password}
+        where id = #{id}
+    </update>
+
+    <!--public List<TbUser> page(int start, int length);-->
+    <select id="page" parameterType="java.util.Map" resultType="com.zhangtao.zt.home.domain.TbUser">
+        select *
+        from tb_user
+        <where>
+            <if test = "tbUser.username!=null and tbUser.username!=''">
+                and username like concat ('%', #{tbUser.username}, '%')
+            </if>
+            <if test = "tbUser.phone!=null and tbUser.phone!=''">
+                and phone like concat ('%', #{tbUser.phone}, '%')
+            </if>
+            <if test = "tbUser.email!=null and tbUser.email!=''">
+                and email like concat ('%', #{tbUser.email}, '%')
+            </if>
+        </where>
+        limit #{start}, #{length}
+    </select>
+    <!--int count(TbUser tbUser);-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(*)
+        from tb_user
+        <where>
+            <if test = "username!=null and username!=''">
+                and username like concat ('%', #{username}, '%')
+            </if>
+            <if test = "phone!=null and phone!=''">
+                and phone like concat ('%', #{phone}, '%')
+            </if>
+            <if test = "email!=null and email!=''">
+                and email like concat ('%', #{email}, '%')
+            </if>
+        </where>
+    </select>
+    <!--void updateAuth(Integer id);-->
+    <update id="updateAuth">
+        update tb_user
+        set authority=#{auth}
+        where id=#{id}
+    </update>
+</mapper>

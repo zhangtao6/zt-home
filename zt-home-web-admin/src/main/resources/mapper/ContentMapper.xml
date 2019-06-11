@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangtao.zt.home.web.admin.dao.TbContentDao">
+    <!--List<TbContent> selectAll();-->
+    <select id="selectAll" resultType="com.zhangtao.zt.home.domain.TbContent">
+        select *
+        from tb_content
+    </select>
+
+    <!--TbContent selectTbContentById(Integer id);-->
+    <select id="selectTbContentById" resultType="com.zhangtao.zt.home.domain.TbContent">
+        select *
+        from tb_content
+        where id=#{id}
+    </select>
+
+    <!--void save(TbContent tbContent);-->
+    <update id="save">
+        update tb_content
+        set
+        title=#{title},
+        introduction=#{introduction},
+        picture=#{picture},
+        details=#{details}
+        where id=#{id}
+    </update>
+</mapper>
