@@ -60,6 +60,7 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mapperLocations" value="classpath:mapper/*.xml"/>
+		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
 	</bean>
 	<!-- 建一并得到指定dao接口的实现类
 	（由Mybatis自动生成） -->

@@ -1,0 +1,34 @@
+package com.zhangtao.zt.home.web.api.service.impl;
+
+import com.zhangtao.zt.home.domain.TbContent;
+import com.zhangtao.zt.home.web.api.dao.TbContentDao;
+import com.zhangtao.zt.home.web.api.service.TbContentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * @author zhangtao
+ * @Description: TODO
+ * @ProjectName zt-home
+ * @date 2019/6/7 17:12
+ */
+@Service
+@Transactional(readOnly = true)
+public class TbContentServiceImpl implements TbContentService {
+    @Autowired
+    private TbContentDao tbContentDao;
+
+    @Override
+    public List<TbContent> selectAll() {
+        return tbContentDao.selectAll();
+    }
+
+    @Override
+    public TbContent selectTbContentById(Integer id) {
+        return tbContentDao.selectTbContentById(id);
+    }
+
+}

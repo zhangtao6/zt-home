@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangtao.zt.home.web.api.dao.TbCommentDao">
+
+    <sql id="tbComment">
+        id,
+        parent_id parentId,
+        topic_id topicId,
+        topic_type topicType,
+        content,
+        from_uid fromUid,
+        from_uname fromUname,
+        praise, replay, updated
+    </sql>
+    <select id="selectById" resultType="com.zhangtao.zt.home.domain.TbComment">
+        select
+        <include refid="tbComment"/>
+        from tb_comment
+        where id = #{id}
+    </select>
+
+    <!--List<TbComment> page(Map<String, Object> param);-->
+    <select id="page" parameterType="java.util.Map" resultType="com.zhangtao.zt.home.domain.TbComment">
+        select
+        <include refid="tbComment"/>
+        from tb_comment
+        <where>
+            <if test = "tbComment.topicType!=null and tbComment.topicType!=''">
+                and topic_type like concat ('%', #{tbComment.topicType}, '%')
+            </if>
+            <if test = "tbComment.fromUname!=null and tbComment.fromUname!=''">
+                and from_uname like concat ('%', #{tbComment.fromUname}, '%')
+            </if>
+            <if test = "startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and updated &gt; #{startTime} and updated &lt; #{endTime}
+            </if>
+        </where>
+        limit #{start}, #{length}
+    </select>
+    <!--int count(Map<String, Object> params);-->
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*)
+        from tb_comment
+        <where>
+            <if test = "tbComment.topicType!=null and tbComment.topicType!=''">
+                and topic_type like concat ('%', #{tbComment.topicType}, '%')
+            </if>
+            <if test = "tbComment.fromUname!=null and tbComment.fromUname!=''">
+                and from_uname like concat ('%', #{tbComment.fromUname}, '%')
+            </if>
+            <if test = "startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and updated &gt; #{startTime} and updated &lt; #{endTime}
+            </if>
+        </where>
+    </select>
+</mapper>

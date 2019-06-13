@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangtao.zt.home.web.api.dao.TbUserDao">
+
+    <!--public List<TbUser> selectUserByUsername(String username);-->
+    <select id="selectUserByUsername" parameterType="String" resultType="com.zhangtao.zt.home.domain.TbUser">
+        select *
+        from tb_user
+        <where>
+            <if test="username!=null and username!=''">
+                username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <!--public TbUser selectById(@Param(value = "id") Integer id);-->
+    <select id="selectById" resultType="com.zhangtao.zt.home.domain.TbUser">
+        select *
+        from tb_user
+        where
+        id = #{id}
+    </select>
+
+    <!--public void save(TbUser tbUser);-->
+    <insert id="save" parameterType="com.zhangtao.zt.home.domain.TbUser">
+        INSERT INTO
+        tb_user(username, password, email, phone)
+        values(#{username}, #{password}, #{email},#{phone})
+    </insert>
+
+    <!--public void updateTbUser(TbUser tbUser);-->
+    <update id="updateTbUser">
+        update tb_user
+        set
+        username = #{username},
+        phone = #{phone},
+        email = #{email},
+        password = #{password}
+        where id = #{id}
+    </update>
+
+
+
+
+</mapper>
