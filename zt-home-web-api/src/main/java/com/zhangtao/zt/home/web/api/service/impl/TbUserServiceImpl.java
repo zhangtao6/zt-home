@@ -5,7 +5,9 @@ import com.zhangtao.zt.home.commons.dto.PageInfo;
 import com.zhangtao.zt.home.commons.validator.BeanValidator;
 import com.zhangtao.zt.home.domain.TbUser;
 import com.zhangtao.zt.home.web.api.dao.TbUserDao;
+import com.zhangtao.zt.home.web.api.dto.TbUserDto;
 import com.zhangtao.zt.home.web.api.service.TbUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,15 +33,7 @@ public class TbUserServiceImpl implements TbUserService {
      * @return
      */
     public TbUser login(String username, String password) {
-        List<TbUser> tbUserList = tbUserDao.selectUserByUsername(username);
-        if (tbUserList.size() == 0)
-            return null;
-        TbUser tbUser = tbUserList.get(0);
-
-        //判断是否是超级用户
-        if(tbUser.getAuthority() == 0)
-            return null;
-
+        TbUser tbUser = tbUserDao.selectUserByUsername(username);
         if (tbUser != null) {
             // 明文密码加密
             String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
@@ -53,18 +47,7 @@ public class TbUserServiceImpl implements TbUserService {
     }
 
     /**
-     * 得到用户列表
-     *
-     * @return
-     */
-    public List<TbUser> getTbUserlist() {
-        List<TbUser> tbUserList = tbUserDao.selectUserByUsername("");
-        return tbUserList;
-    }
-
-
-    /**
-     * 保存用户
+     * 注册和保存用户
      *
      * @param tbUser
      */
@@ -81,30 +64,27 @@ public class TbUserServiceImpl implements TbUserService {
              * 新增用户
              */
             if (tbUser.getId() == null) {
-                //新增用户
-                tbUserDao.save(tbUser);
+                TbUser userByUsername = tbUserDao.selectUserByUsername(tbUser.getUsername());
+
+                if(userByUsername == null){ //用户名不存在，可以注册
+                    tbUserDao.save(tbUser);
+                    TbUserDto tbUserDto = new TbUserDto();
+                    BeanUtils.copyProperties(tbUser, tbUserDto);
+                    return BaseResult.success("注册成功", tbUserDto);
+                }else{ //用户名存在，可以注册
+                    return BaseResult.fail("该用户名已存在");
+                }
+
             } else {
                 //编辑用户
                 tbUserDao.updateTbUser(tbUser);
+                TbUserDto tbUserDto = new TbUserDto();
+                BeanUtils.copyProperties(tbUser, tbUserDto);
+                return BaseResult.success("修改用户信息成功", tbUserDto);
             }
-            /*baseResult.setMessage("保存信息成功！");*/
-
-
-            return BaseResult.success("保存用户信息成功");
         }
 
 
-    }
-
-
-    /**
-     * 根据id查询
-     *
-     * @param id
-     * @return
-     */
-    public TbUser getById(Integer id) {
-        return tbUserDao.selectById(id);
     }
 
 }

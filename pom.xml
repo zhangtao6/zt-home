@@ -9,6 +9,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <!--此项目用于解决maven中央仓库没有的依赖-->
+        <module>zt-home-external</module>
         <module>zt-home-dependencies</module>
         <module>zt-home-commons</module>
         <module>zt-home-domain</module>

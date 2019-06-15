@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--头部-->
 <header id="lk_header">
     <nav class="navbar navbar-default navbar-static-top navbar-lk">
@@ -27,9 +27,19 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right ">
-                    <li>
-                        <a href="#"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;&nbsp;登录</a>
-                    </li>
+                    <c:if test="${tbUser == null}">
+                        <li>
+                            <a href="/sign"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;&nbsp;登录</a>
+                        </li>
+                    </c:if>
+                    <c:if test="${tbUser != null}">
+                        <li>
+                            <a href="/sign">&nbsp;&nbsp;${tbUser.username}</a>
+                        </li>
+                        <li>
+                            <a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;&nbsp;退出</a>
+                        </li>
+                    </c:if>
                 </ul>
             </div>
         </div>

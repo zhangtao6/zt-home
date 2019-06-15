@@ -14,14 +14,7 @@ public interface TbUserDao{
     /**
      * 根据用户名查询
      */
-    List<TbUser> selectUserByUsername(@Param(value = "username") String username);
-
-    /**
-     * 根据id查询
-     * @param id
-     * @return
-     */
-    TbUser selectById(@Param(value = "id") Integer id);
+    TbUser selectUserByUsername(@Param(value = "username") String username);
 
     /**
      * 增加TbUser

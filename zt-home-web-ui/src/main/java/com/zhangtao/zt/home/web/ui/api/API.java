@@ -11,6 +11,8 @@ public class API {
     public static final String HOST = "http://localhost:8889/api/v1";
     //内容列表
     public static final String API_CONTENT_LIST = "/content/";
-    //内容详情
-    /*public static final String API_CONTENT_INDEX = "/content/";*/
+    //登录验证
+    public static final String API_USER_LOGIN = "/user/login";
+    //注册
+    public static final String API_USER_REGISTER = "/user/register";
 }

@@ -1,18 +1,17 @@
-package com.zhangtao.zt.home.web.ui.dto;
+package com.zhangtao.zt.home.web.api.dto;
 
-import com.zhangtao.zt.home.commons.persistence.BaseEntity;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * @author zhangtao
- * @Description: 分类管理
+ * @Description: TODO
  * @ProjectName zt-home
- * @date 2019/6/7 15:05
+ * @date 2019/6/14 14:39
  */
 @Data
-public class TbContent implements Serializable {
+public class TbContentDto implements Serializable {
     private Integer id;
     private String title;
     private String introduction;

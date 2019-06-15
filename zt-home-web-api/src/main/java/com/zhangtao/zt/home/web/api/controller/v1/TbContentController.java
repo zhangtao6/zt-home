@@ -1,13 +1,16 @@
 package com.zhangtao.zt.home.web.api.controller.v1;
 
 import com.zhangtao.zt.home.domain.TbContent;
+import com.zhangtao.zt.home.web.api.dto.TbContentDto;
 import com.zhangtao.zt.home.web.api.service.TbContentService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,12 +26,23 @@ public class TbContentController {
     private TbContentService tbContentService;
 
     @RequestMapping(value = "")
-    public List<TbContent> list() {
-        return tbContentService.selectAll();
+    public List<TbContentDto> list() {
+        //要把List new出来 呆逼
+        List<TbContentDto> tbContentDtos = new ArrayList<>();
+        List<TbContent> tbContents = tbContentService.selectAll();
+        for (TbContent tbContent :
+                tbContents) {
+            TbContentDto dto = new TbContentDto();
+            BeanUtils.copyProperties(tbContent, dto);
+            tbContentDtos.add(dto);
+        }
+        return tbContentDtos;
     }
 
     @RequestMapping(value = "{content_index}", method = RequestMethod.GET)
-    public TbContent detail(@PathVariable(value = "content_index") Integer id) {
-        return tbContentService.selectTbContentById(id);
+    public TbContentDto detail(@PathVariable(value = "content_index") Integer id) {
+        TbContentDto tbContentDto = new TbContentDto();
+        BeanUtils.copyProperties(tbContentService.selectTbContentById(id), tbContentDto);
+        return tbContentDto;
     }
 }

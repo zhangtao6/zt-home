@@ -50,7 +50,7 @@ public class HttpClientUtils {
     /**
      * Post请求， 不带cookie
      * @param url
-     * @param params
+     * @param params post请求的参数
      * @return
      */
     public static String doPost(String url, BasicNameValuePair... params) {
@@ -59,7 +59,7 @@ public class HttpClientUtils {
     /**
      * Post请求，带cookie
      * @param url
-     * @param params
+     * @param params post请求的参数
      * @return
      */
     public static String doPost(String url, String cookie, BasicNameValuePair... params) {

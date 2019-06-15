@@ -8,19 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectUserByUsername" parameterType="String" resultType="com.zhangtao.zt.home.domain.TbUser">
         select *
         from tb_user
-        <where>
-            <if test="username!=null and username!=''">
-                username = #{username}
-            </if>
-        </where>
-    </select>
-
-    <!--public TbUser selectById(@Param(value = "id") Integer id);-->
-    <select id="selectById" resultType="com.zhangtao.zt.home.domain.TbUser">
-        select *
-        from tb_user
         where
-        id = #{id}
+        username = #{username}
     </select>
 
     <!--public void save(TbUser tbUser);-->
